@@ -2,10 +2,11 @@ package vault
 
 import (
 	"fmt"
+	"strings"
+
 	log "github.com/Sirupsen/logrus"
 	"github.com/hashicorp/vault/api"
 	"github.com/pkg/errors"
-	"strings"
 )
 
 const VaultPathPrefix = "vault://"
@@ -30,7 +31,7 @@ func NewDefaultVault() EnvVault {
 	conf := api.DefaultConfig()
 	err := conf.ReadEnvironment()
 	if err != nil {
-		log.Warn("Unable to load Environment vars: %s", err.Error())
+		log.Warnf("Unable to load Environment vars: %s", err)
 	}
 	log.Infof("Vault address '%s' ", conf.Address)
 	vaultClient, _ := api.NewClient(conf)
